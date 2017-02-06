@@ -1,0 +1,35 @@
+{
+  "name": "relay-starter-kit",
+  "private": true,
+  "description": "A quick way to get up and running with Relay",
+  "repository": "facebook/relay-starter-kit",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "babel-node ./server.js",
+    "update-schema": "babel-node ./scripts/updateSchema.js"
+  },
+  "dependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-polyfill": "^6.13.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-relay-plugin": "0.9.3",
+    "chokidar": "1.6.0",
+    "classnames": "2.2.5",
+    "express": "4.14.0",
+    "express-graphql": "0.5.4",
+    "graphql": "0.7.0",
+    "graphql-relay": "0.4.3",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "react-relay": "0.9.3",
+    "require-clean": "0.1.3",
+    "webpack": "1.13.2",
+    "webpack-dev-server": "1.15.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.14.0"
+  }
+}
