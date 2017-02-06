@@ -27,7 +27,7 @@ To start your Relay app:
 Now you can visit [`localhost:3000`](http://localhost:3000/) to view your relay application.
 
 Changes to `schema.ex` will require the relay server to be stopped and
-the `update-schema` script to be ran.
+the `update-schema` script to be run.
 
 ```
 npm run update-schema
