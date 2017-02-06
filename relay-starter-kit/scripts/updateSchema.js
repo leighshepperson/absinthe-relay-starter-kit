@@ -1,29 +1,33 @@
-#!/usr/bin/env babel-node --optional es7.asyncFunctions
-
+import fetch from 'node-fetch';
 import fs from 'fs';
+import {
+  buildClientSchema,
+  introspectionQuery,
+  printSchema,
+} from 'graphql/utilities';
 import path from 'path';
-import { Schema } from '../data/schema';
-import { graphql }  from 'graphql';
-import { introspectionQuery, printSchema } from 'graphql/utilities';
+
+const schemaPath = path.join(__dirname, '../data/schema');
+const SERVER = 'http://localhost:4000/graphql';
 
 // Save JSON of full schema introspection for Babel Relay Plugin to use
-(async () => {
-  var result = await (graphql(Schema, introspectionQuery));
-  if (result.errors) {
-    console.error(
-      'ERROR introspecting schema: ',
-      JSON.stringify(result.errors, null, 2)
-    );
-  } else {
-    fs.writeFileSync(
-      path.join(__dirname, '../data/schema.json'),
-      JSON.stringify(result, null, 2)
-    );
-  }
-})();
+fetch(`${SERVER}`, {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({'query': introspectionQuery}),
+}).then(res => res.json()).then(schemaJSON => {
+  fs.writeFileSync(
+    `${schemaPath}.json`,
+    JSON.stringify(schemaJSON, null, 2)
+  );
 
-// Save user readable type system shorthand of schema
-fs.writeFileSync(
-  path.join(__dirname, '../data/schema.graphql'),
-  printSchema(Schema)
-);
+  // Save user readable type system shorthand of schema
+  const graphQLSchema = buildClientSchema(schemaJSON.data);
+  fs.writeFileSync(
+    `${schemaPath}.graphql`,
+    printSchema(graphQLSchema)
+  );
+});

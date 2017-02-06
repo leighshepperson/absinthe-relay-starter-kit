@@ -17,7 +17,7 @@ defmodule MyApp.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {MyApp, []},
-     applications: [:phoenix, :phoenix_pubsub, :cowboy, :logger, :gettext]]
+     applications: [:phoenix, :phoenix_pubsub, :cowboy, :logger, :gettext, :absinthe_relay, :absinthe_plug]]
   end
 
   # Specifies which paths to compile per environment.
@@ -31,6 +31,9 @@ defmodule MyApp.Mixfile do
     [{:phoenix, "~> 1.2.1"},
      {:phoenix_pubsub, "~> 1.0"},
      {:gettext, "~> 0.11"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:poison, "~> 2.0"},
+     {:absinthe_plug, "~> 1.2.0"},
+     {:absinthe_relay, "~> 1.2.0"}]
   end
 end

@@ -1,6 +1,5 @@
 import chokidar from 'chokidar';
 import express from 'express';
-import graphQLHTTP from 'express-graphql';
 import path from 'path';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
@@ -8,9 +7,8 @@ import {clean} from 'require-clean';
 import {exec} from 'child_process';
 
 const APP_PORT = 3000;
-const GRAPHQL_PORT = 8080;
+const GRAPHQL_PORT = 4000;
 
-let graphQLServer;
 let appServer;
 
 function startAppServer(callback) {
@@ -44,33 +42,10 @@ function startAppServer(callback) {
   });
 }
 
-function startGraphQLServer(callback) {
-  // Expose a GraphQL endpoint
-  clean('./data/schema');
-  const {Schema} = require('./data/schema');
-  const graphQLApp = express();
-  graphQLApp.use('/', graphQLHTTP({
-    graphiql: true,
-    pretty: true,
-    schema: Schema,
-  }));
-  graphQLServer = graphQLApp.listen(GRAPHQL_PORT, () => {
-    console.log(
-      `GraphQL server is now running on http://localhost:${GRAPHQL_PORT}`
-    );
-    if (callback) {
-      callback();
-    }
-  });
-}
-
 function startServers(callback) {
   // Shut down the servers
   if (appServer) {
     appServer.listeningApp.close();
-  }
-  if (graphQLServer) {
-    graphQLServer.close();
   }
 
   // Compile the schema
@@ -83,7 +58,6 @@ function startServers(callback) {
         callback();
       }
     }
-    startGraphQLServer(handleTaskDone);
     startAppServer(handleTaskDone);
   });
 }
